@@ -1,0 +1,267 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Administrador de Movimientos</title> 
+		
+		<link rel="stylesheet" href="jquery.mobile-1.3.1.min.css" /> 
+		<script src="jquery-1.7.2.min.js"></script>
+		<script src="jquery.mobile-1.3.1.min.js"></script>
+		<script src="jquery.jtime_.js"></script>
+		 	
+		
+	<link rel="stylesheet" type="text/css" href="jquery-easyui-1.3.3/themes/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="jquery-easyui-1.3.3/themes/icon.css" />
+	
+	
+	<script type="text/javascript" src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>		
+	<script  src="script_cruds/crud_producto.js"></script>
+	<link rel="stylesheet" href="Ingresar.css" />
+	<link rel="stylesheet" href="estilo_iconos/estiloIconos.css" />	
+		
+	<link rel="stylesheet" href="estilo_iconos/estiloIconos.css" />	
+	<link rel="stylesheet" href="estilos/estilo_ventana.css" />		
+	
+</head> 
+<body> 
+
+	<div data-role="page" class="type-interior">
+
+		<div data-role="header" data-theme="a">
+		<h1>Panel General Productos</h1>
+		<a href="index.html" data-ajax="false" data-theme="a" data-ajax="false" id="idbtn_principal">Men&uacute; Principal <!-- <img src="glyphish-icons/PNG_icons_active/111-user.png"/> --></a>
+		
+		
+		</div><!-- /header -->
+
+			<div data-role="content">
+				
+							<div class="easyui-layout" style="width:1300px; height:380px; ">
+								
+								
+								<div data-options="region:'east',split:true" title="Detalle" style="width:450px;">
+										<table id="dg_movimientos_producto"  class="easyui-datagrid" style="width:450px; height:360px"
+										url="php/"
+										toolbar="#toolbar" pagination="true"
+										rownumbers="true" fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<th field="nombre_bodega" >Bodega</th>
+												<th field="nombre_dispositivo" >Distositivo</th>
+												<th field="descripcion" >Antena</th>
+												<th field="sentido_movimiento" >Sentido</th>
+												<th field="fecha_reader" >Fecha Lectura</th>
+											</tr>
+										</thead>
+										</table>
+								</div>
+								<div data-options="region:'west',split:true" title="Categorias" style="width:200px; background-color:#f5f5f5;">
+									<ul id="treeboxbox_tree" class="easyui-tree" style="width:440px; height:500px;border :1px solid Silver;; overflow:auto;" data-options="url:'php/arbol_categorias.php',lines:true"></ul> 
+								</div>
+								<div data-options="region:'center',title:'Productos',iconCls:'icon-ok'">
+									
+									<table id="dg"  class="easyui-datagrid" style="width:840px; height:330px"
+										url="php/get_productos.php"
+										toolbar="#toolbar" pagination="true"
+										rownumbers="true" fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<!-- <th data-options="field:'ck',checkbox:true"></th> -->
+												<th field="id_producto" hidden="true" width="50">id_producto</th>
+												<th field="nombre_producto" width="50">Nombre</th>
+												<th field="stock_actual" width="50">Stock Actual</th>
+												<th field="precio_promedio" width="50">Precio</th>
+											</tr>
+										</thead>
+									</table>
+									
+									
+									
+								</div>
+							</div>
+			</div><!-- /content -->
+							
+							
+			<div data-role="footer" data-position="fixed" >
+								<div id="iddiv_panel" class="ui-grid-b ui-responsive">
+								 <div class="ui-block-a" style="text-align:center;">
+									<a style=" width:200px;" data-icon="back" data-iconpos="left" data-ajax="false" data-role="button" data-theme="b" id='iddiv_salir'  href="index.html" onclick='cerrarSession();'>Salir</a>
+								</div> 
+								<div  class="ui-block-b" style="text-align:center;"> <div id="iddiv_fecha"> </div> <span id="iddiv_coordenadas" style="text-align:left;"></span> </div>
+								<div class="ui-block-c">
+									<div class="ui-grid-b">	
+										<div id="iddiv_modoLR" class="ui-block-a" style="text-align:left;"></div>
+										<div class="ui-block-b"></div>
+										<div id="iddiv_usuario" class="ui-block-c" style="text-align:right;"></div>
+									</div>	
+								</div>
+								</div><!-- /grid-b -->
+			</div>
+
+			</div><!-- /page -->
+								<!-- Toolbars , dialog (las deje afuera de page jquery mobile para que el estilo no tome el dialog) -->
+								<div id="toolbar">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newProducto()">Nuevo Producto</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editProducto()">Editar Producto</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeProducto()">Eliminar Producto</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-print" plain="true" onclick="exportarProducto()">Exportar Excel</a>
+								</div>
+								
+									
+									
+									
+									
+									<div id="w" class="easyui-window" title="Modal Window" style="width:500px; height:550px; padding:10px 20px" closed="true" data-options="modal:true,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Producto</div>
+										<form id="fm" method="post" novalidate>
+											<div style='' class="fitem">
+												<label>Clave producto:</label>
+												
+												<input name="clave_producto"  class="easyui-validatebox"   required="true">
+												
+											</div>
+											<div style='width:300px' class="fitem">
+												<label>Nombre :</label>
+												<input name="nombre_producto" class="easyui-validatebox" required="true">
+											</div>
+											<div  style='width:300px' class="fitem">
+												<label>Stock:</label>
+												<!-- <input name="stock_actual"  class="easyui-numberspinner" value="0" style="width:150px;"  data-options="required:true " min='1' /> -->
+												<input name="stock_actual" id="stock_actual" class="easyui-numberbox" data-options="min:1,required:true">	
+											</div>
+											<div style='width:300px' class="fitem">
+												<label>Stock Minimo:</label>
+												<input name="stock_minimo" id="stock_minimo" class="easyui-numberbox" data-options="min:1,required:true">
+											</div>
+											<div style='width:300px' class="fitem">
+												<label>Stock Inicial:</label>
+												<input name="stock_inicial" id="stock_inicial" class="easyui-numberbox" data-options="min:1,required:true"  >
+											</div>
+											
+											<div style='width:300px' class="fitem">
+												<label>Precio Promedio:</label>
+												
+												<input id ='precio_promedio' name="precio_promedio" class="easyui-numberspinner" value="0" style="width:150px;"  data-options="required:true,precision:2,groupSeparator:',',decimalSeparator:'.',prefix:'$'" /> 
+											</div>
+											
+											<div class="fitem">
+												<label>Unidad de Medida:</label>
+												
+												<input class="easyui-combobox" id="cod_unidad_medida" name="cod_unidad_medida" />
+												
+											</div>
+											<div style='width:300px' class="fitem">
+												<label>Fecha Ingreso Stock  Inicial:</label>
+												<input name="fecha_ingreso_stockini" class="easyui-datebox"  id="fecha_ingreso_stockini" type="text" class="easyui-datebox" required="required" style="width:150px" />
+											</div>
+											
+											<div style='width:300px' class="fitem">
+												<label>Fecha Creacion:</label>
+												<input name="fecha_creacion" class="easyui-datebox"  id="fecha_creacion" type="text" class="easyui-datebox" required="required" style="width:150px">	</input> 
+											</div>
+											
+											<div style='width:300px' class="fitem">
+												<label>Categoria:</label>
+												<input id='id_categoria' name='id_categoria' class="easyui-combotree" data-options="url:'php/arbol_categorias.php',lines:true" style="width:200px;">
+											</div>
+											<input id='id_subcategoria' name='id_subcategoria' hidden='hidden' data-options="url:'php/arbol_categorias.php',lines:true" style="display:none; width:200px;">
+											<input id='usuario' name='usuario' value='' hidden='hidden'  style="display:none; width:200px;" />	
+											
+										</form>
+										
+										
+										
+											<div id="dlg-buttons">
+												<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveProducto()">Save</a>
+												<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w').window('close')">Cancel</a>
+											</div>
+									</div>
+	</body>
+</html>
+					<script src="validaciones_login_sesion/scriptLoginSession.js"></script>
+<script>
+		
+		
+		function mostrarMovimientos()
+		{
+			var row=$('#dg').datagrid('getSelected');
+			//console.log( row.id_producto ); 
+			
+			$.post("php/get_movimientos_por_producto.php",{ id_producto: row.id_producto},function(data){
+						console.log( row.id_producto +' '+data) 
+						
+						$('#dg_movimientos_producto').datagrid('loadData', data.rows);
+						$('#dg_movimientos_producto').datagrid('reload');
+					}, "json");
+			
+		}
+		
+		$('#dg').datagrid({
+			onClickRow: function(index,field,value){
+				mostrarMovimientos();
+			}
+		});
+
+			$('#treeboxbox_tree').tree({
+				onClick: function(node){
+				
+					var esSubcategoria=0;
+					var id_nodo=node.id;
+					
+					try
+					{
+						console.log( JSON.parse(node.attributes));	
+						var atributo=JSON.parse(node.attributes);
+						esSubcategoria=atributo.subcategoria;
+					}
+					catch(e)
+					{
+						id_nodo=-1;
+					}
+					
+						
+					$.post("php/get_productos.php",{ filtro: id_nodo,es_subcategoria:esSubcategoria},function(data){
+						//console.log(node.id+' '+data);
+						$('#dg').datagrid('loadData', data.rows);
+					},'json');
+					
+					//getSelected()
+					
+				}
+			});
+			
+		function getSelected()
+		{
+		
+				var node = $('#treeboxbox_tree').tree('getSelected');
+				if (node)
+				{
+					var s = node.text;
+					if (node.attributes)
+					{
+						s += ","+node.attributes.p1+","+node.attributes.p2;
+					}
+					//alert(s);
+					return node.id;
+				}
+		}
+		
+			$.fn.datebox.defaults.formatter = function(date)
+			{
+				var y = date.getFullYear();
+				var m = ((date.getMonth()>9) ? (date.getMonth() +1) : '0'+(date.getMonth() +1) );
+				var d = ( (date.getDate()>9) ? date.getDate(): '0'+date.getDate() ) ;
+				var hh=date.getHours();
+						var mm=date.getMinutes();
+						var ss=date.getSeconds();
+						var fecha= y+'-'+m+'-'+d+' '+hh+':'+mm+':'+ss;
+				return fecha;
+			} 
+				
+		
+		//$('fitem input').css('margin-left','80px') //removeClass('ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c');
+	//	$('#i_clv_pr div').css("display", "inline");
+		//$('#i_clv_pr div').attr('style','display:inline;')
+		$('fitem input').attr('style','margin-left:80px;')
+</script>

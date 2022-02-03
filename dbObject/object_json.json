@@ -1,0 +1,12 @@
+{    
+	"nombre_tabla":"nombre_tabla",
+	"objeto":
+		{
+		"nombre_clave":"id",
+		"Nombre" : "'Juan'",
+		"Edad": 28,
+		"Aficiones": "Música ,Tenis",
+		"Residencia": "Madrid"
+		}
+	
+}

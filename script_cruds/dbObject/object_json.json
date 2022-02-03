@@ -1,0 +1,13 @@
+{    
+	"nombre_tabla":"producto",
+	"objeto":
+		{
+		"nombre_clave":"id_producto",
+		"id_producto":"1",
+		"Nombre" : "'Juan'",
+		"Edad": 28,
+		"Aficiones": "Música ,Tenis",
+		"Residencia": "Madrid"
+		}
+	
+}

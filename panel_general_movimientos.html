@@ -1,0 +1,297 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Administrador de Movimientos</title> 
+		
+		<link rel="stylesheet" href="jquery.mobile-1.3.1.min.css" /> 
+		<script src="jquery-1.7.2.min.js"></script>
+		<script src="jquery.mobile-1.3.1.min.js"></script>
+		<script src="jquery.jtime_.js"></script>
+		 	
+		
+	<link rel="stylesheet" type="text/css" href="jquery-easyui-1.3.3/themes/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="jquery-easyui-1.3.3/themes/icon.css" />
+	
+	
+	
+	<script type="text/javascript" src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>		
+	<script  src="script_cruds/crud_producto.js"></script>
+	<link rel="stylesheet" href="Ingresar.css" />
+	<link rel="stylesheet" href="estilo_iconos/estiloIconos.css" />	
+		
+		<style type="text/css">
+		#fm{
+			margin:0;
+			padding:10px 30px;
+		}
+		.ftitle{
+			font-size:14px;
+			font-weight:bold;
+			color:#666;
+			padding:5px 0;
+			margin-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+		.fitem{
+			margin-bottom:5px;
+		}
+		.fitem label{
+			display:inline-block;
+			width:80px;
+		}
+	</style>
+			
+
+</head> 
+<body> 
+
+	<div data-role="page" class="type-interior">
+
+		<div data-role="header" data-theme="a">
+		<h1>Panel General Movimientos</h1>
+		<a href="index.html" data-ajax="false" data-theme="a" data-ajax="false" id="idbtn_principal">Men&uacute; Principal <!-- <img src="glyphish-icons/PNG_icons_active/111-user.png"/> --></a>
+		
+		
+		</div><!-- /header -->
+
+			<div data-role="content">
+						<div class="easyui-layout" style="width:1300px; height:350px; ">
+								
+								
+								
+								<div data-options="region:'west',split:true" title="Filtros Recintos-Bodegas-Dispositivos" style="width:400px; background-color:#f5f5f5;">
+									<ul id="treeboxbox_tree" class="easyui-tree" style="width:440px; height:500px;border :1px solid Silver;; overflow:auto;" data-options="url:'php/arbol_filtros_movimientos.php',lines:true"></ul> 
+								</div>
+								<div data-options="region:'center',title:'Movimientos',iconCls:'icon-ok'" style="width:725px" >
+									
+									<table id="dg_movimientos"  class="easyui-datagrid" style="width:700px; height:310px"
+										url="php/get_movimientos.php" toolbar='#tb_grid_movimientos'
+										 pagination="true"
+										rownumbers="true"  fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<!-- <th data-options="field:'ck',checkbox:true"></th> -->
+												<th field="id_movimiento" hidden="true"style="width:50px;" >id_movimiento</th>
+												<th field="fecha_reader" style="width:200px;" >Fecha Lectura</th>
+												<th field="cantidad"  align='right'  >Cantidad</th>
+												<th field="sentido_movimiento" width="9" >Sentido</th>
+												<th field="clave_producto" width="9" >Clave Producto</th>
+												<th field="nombre_producto" width="9" >Producto</th>
+												
+											</tr>
+										</thead>
+									</table>
+										
+								</div>  
+									
+									
+									
+						</div>
+			
+					
+								
+								  
+
+			</div><!-- /content -->
+							
+							
+			<div data-role="footer" data-position="fixed" >
+					<div id="iddiv_panel" class="ui-grid-b ui-responsive">
+				 <div class="ui-block-a" style="text-align:center;">
+					<a style=" width:200px;" data-icon="back" data-iconpos="left" data-role="button" data-ajax="false" data-theme="b" id='iddiv_salir' href="index.html" onclick='cerrarSession();'>Salir</a>
+				</div> 
+				<div  class="ui-block-b" style="text-align:center;"> <div id="iddiv_fecha"> </div> <span id="iddiv_coordenadas" style="text-align:left;"></span> </div>
+				<div class="ui-block-c">
+					<div class="ui-grid-b">	
+						<div id="iddiv_modoLR" class="ui-block-a" style="text-align:left;"></div>
+						<div class="ui-block-b"></div>
+						<div id="iddiv_usuario" class="ui-block-c" style="text-align:right;"></div>
+					</div>	
+				</div>
+			</div><!-- /grid-b -->
+			</div>
+
+	</div><!-- /page -->
+								<!--  dialog (las deje afuera de page jquery mobile para que el estilo no tome el dialog) -->
+								<div id="tb_grid_movimientos" style="padding:5px;height:auto">  
+										  
+											Fecha de Lectura: <input id="fecha_intervalo1" name="fecha_intervalo1" class="easyui-datebox" style="width:100px">  
+											A: <input id="fecha_intervalo2" name="fecha_intervalo2" class="easyui-datebox" style="width:100px">  
+											  
+											<a href="#" id="btn_filtro_fecha" class="easyui-linkbutton" iconCls="icon-search">Filtrar</a>  
+											<a href="#" class="easyui-linkbutton" iconCls="icon-print" plain="true" onclick="exportarMovimiento()">Exportar Excel</a>
+								</div>  
+								
+								
+	</body>
+</html>
+			<script src="validaciones_login_sesion/scriptLoginSession.js"></script>
+<script>
+		
+		
+		
+		function mostrarMovimientos()
+		{
+			var row=$('#dg').datagrid('getSelected');
+			console.log( row.id_producto ); 
+			
+			$.post("php/get_movimientos_por_producto.php",{ id_producto: row.id_producto},function(data){
+						console.log( row.id_producto +' '+data) 
+						
+						$('#dg_movimientos_producto').datagrid('loadData', data.rows);
+					}, "json");
+			
+		}
+		
+		$('#dg').datagrid({
+			onClickRow: function(index,field,value){
+				mostrarMovimientos();
+			}
+		});
+
+			$('#treeboxbox_tree').tree({
+				onClick: function(node){
+							var nodoTipo;
+							var id_nodo=node.id;
+							
+							var nodoPadre=$('#treeboxbox_tree').tree('getParent', node.target );
+							var idNodoPadre;
+							var nodoTipo;
+							try
+							{
+								console.log( nodoPadre);	
+								var atributo=JSON.parse(node.attributes);
+								nodoTipo=atributo.nodoTipo;
+								idNodoPadre=nodoPadre.id;
+							}
+							catch(e)
+							{
+								id_nodo=-1;
+								idNodoPadre=-1;
+								nodoTipo='raiz';
+							}
+							
+					$.post("php/get_movimientos.php",{ idNodoSeleccionado: node.id,idNodoPadre:idNodoPadre,nodoTipo:nodoTipo},function(data){
+						//console.log(data);
+						$('#dg_movimientos').datagrid('loadData', data.rows);
+					},'json');
+					
+					//getSelected()
+					
+				}
+			});
+			
+		$('#btn_filtro_fecha').click(function(){
+		
+					var node =getSelected();
+					
+					var nodoTipo;
+					var id_nodo;
+					var nodoPadre;		
+							
+							if(node== undefined && node == null )
+								node=$('#treeboxbox_tree').tree('getRoot');
+								
+							id_nodo=node.id;
+							nodoPadre=$('#treeboxbox_tree').tree('getParent', node.target );
+							
+							var idNodoPadre;
+							var nodoTipo;
+							try
+							{
+								console.log( nodoPadre);	
+								var atributo=JSON.parse(node.attributes);
+								nodoTipo=atributo.nodoTipo;
+								idNodoPadre=nodoPadre.id;
+							}
+							catch(e)
+							{
+								id_nodo=-1;
+								idNodoPadre=-1;
+								nodoTipo='raiz';
+							}
+		
+					
+					//var v = $('#fecha_intervalo1').datebox('getValue');
+					
+					$.post("php/get_movimientos.php",{ idNodoSeleccionado: node.id,idNodoPadre:idNodoPadre,nodoTipo:nodoTipo,fecha_lectura1: $('#fecha_intervalo1').datebox('getValue'),fecha_lectura2: $('#fecha_intervalo2').datebox('getValue')},function(data){
+						//alert(JSON.stringify(data));	
+						console.log(data);
+						$('#dg_movimientos').datagrid('loadData', data.rows);
+					},'json');
+		
+		});
+			
+		function getSelected(){
+		
+				var node = $('#treeboxbox_tree').tree('getSelected');
+				if (node){
+					var s = node.text;
+					if (node.attributes){
+						s += ","+node.attributes.p1+","+node.attributes.p2;
+					}
+					//alert(s);
+					return node;
+				}
+		}
+		
+			$.fn.datebox.defaults.formatter = function(date)
+			{
+				var y = date.getFullYear();
+				var m = ((date.getMonth()>9) ? (date.getMonth() +1) : '0'+(date.getMonth() +1) );
+				var d = ( (date.getDate()>9) ? date.getDate(): '0'+date.getDate() ) ;
+				return y+'-'+m+'-'+d;
+			} 
+				
+		
+	
+		$('fitem input').attr('style','margin-left:80px;')
+		
+		function exportarMovimiento()
+		{
+			var tagTable= $('#dg').html();
+			
+			var node = $('#treeboxbox_tree').tree('getSelected')
+			
+			var nodoTipo;
+					var id_nodo;
+					var nodoPadre;		
+							
+							if(node== undefined && node == null )
+								node=$('#treeboxbox_tree').tree('getRoot');
+								
+							var texto_nodoPadre='';
+							
+							var idNodoPadre;
+							var nodoTipo;
+							try
+							{
+								id_nodo=node.id;
+								nodoPadre=$('#treeboxbox_tree').tree('getParent', node.target );
+								
+								console.log( nodoPadre);	
+								var atributo=JSON.parse(node.attributes);
+								nodoTipo=atributo.nodoTipo;
+								idNodoPadre=nodoPadre.id;
+							}
+							catch(e)
+							{
+								id_nodo=-1;
+								idNodoPadre=-1;
+								nodoTipo='raiz';
+							}
+					
+					
+					//var v = $('#fecha_intervalo1').datebox('getValue');
+					
+					
+					var url = 'php/exportar_movimientos.php?idNodoSeleccionado='+node.id+'&idNodoPadre='+idNodoPadre+'&nodoTipo='+nodoTipo+'&fecha_lectura1='+$('#fecha_intervalo1').datebox('getValue')+'&fecha_lectura2='+ $('#fecha_intervalo2').datebox('getValue')+'&texto_nodoPadre='+texto_nodoPadre ;
+					//alert(url)
+					location.href = url;
+					
+			
+		}
+		
+</script>

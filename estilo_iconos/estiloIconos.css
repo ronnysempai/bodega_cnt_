@@ -1,0 +1,33 @@
+ul[data-role='listview']  li
+{
+	cursor:pointer;
+}
+
+#idicon_consultas_infraciones
+{
+	margin:0 10px;
+	/* border: 1px solid red; */
+	width:30px;
+
+}
+
+#idicon_principal_citacion
+{
+	/* border: 1px solid red;  */
+	margin-right:10px;
+
+}
+
+
+#idicon_principal_consultas
+{
+	/* border: 1px solid red;  */
+	height: 22px;
+	margin-right:3px;
+}
+
+.ui-icon-custom {
+    background-image: url("../glyphish-icons/PNG_icons_active/123-id-card.png");
+    background-position: 3px 3px;
+    background-size: 70%;
+}

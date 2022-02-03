@@ -1,0 +1,260 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Usuarios</title> 
+		
+		<link rel="stylesheet" href="../jquery.mobile-1.3.1.min.css" />
+		<script src="../jquery-1.7.2.min.js"></script>
+		<script src="../jquery.mobile-1.3.1.min.js"></script>
+		<script src="../jquery.jtime_.js"></script>
+		 	
+		
+	<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.3.3/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.3.3/themes/icon.css">
+	
+	
+	<script type="text/javascript" src="../jquery-easyui-1.3.3/jquery.easyui.min.js"></script>		
+	<script type="text/javascript" src="../jquery-easyui-1.3.3/datagrid-detailview.js"></script>  
+		<link rel="stylesheet" href="../Ingresar.css" />
+		<link rel="stylesheet" href="../estilo_iconos/estiloIconos.css" />	
+		<link rel="stylesheet" href="../estilos/estilo_ventana.css" />	
+	
+	
+
+</head> 
+<body> 
+
+	<div data-role="page" class="type-interior">
+
+		<div data-role="header" data-theme="a">
+		<h1>Usuarios</h1>
+		<a href="../index.html" data-ajax="false" data-theme="a" data-ajax="false" id="idbtn_principal">Men&uacute; Principal <!-- <img src="glyphish-icons/PNG_icons_active/111-user.png"/> --></a>
+		
+		</div><!-- /header -->
+
+			<div data-role="content">
+				
+				<div class="easyui-panel" title="" style="width:1350px;height:468px;padding:10px;">
+					<div class="easyui-layout" data-options="fit:true">
+						<div data-options="region:'west',split:false" style="width:5px;padding:10px">
+								
+								<!-- <ul data-role="listview" data-theme="a" >								
+										
+										<li id='li_documentos_guia'  ><a href="#">Documentos Guia</a></li> 
+										<li id='li_tipo_documento_guia'  ><a href="#">Tipo Documentos Guia</a></li>
+										
+								</ul> -->
+							
+						</div>
+						<div data-options="region:'center'" style="padding:10px">
+							
+							
+							<div id='cont_grid_documento_guia' style='display:none;' >
+									
+									<table id="dg_documento_guia" title="Documentos Guia" class="easyui-datagrid" style="display:none; width:800px;height:400px"
+											url="documento_guia/scripts/get_documento_guia.php"
+											toolbar="#toolbar_documento_guia" singleSelect="true" fitColumns="true"  pagination="true">
+									
+										<thead>
+											<tr>
+												<th field="nombre_tipo_documento_guia" width="50">Tipo de Documento</th>
+												<th field="fuente" width="50">Fuente</th>
+												<th field="fecha_creacion" width="50">Fecha Creacion</th>
+											</tr>
+										</thead>
+									
+									</table>		
+									<div id="toolbar_documento_guia">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDocumentoGuia()">Nueva Documento Guia</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDocumentoGuia()">Editar Documento Guia</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeDocumentoGuia()">Eliminar Documento Guia</a>
+									</div>
+							</div>
+							
+							<div id='cont_grid_usuario' style='' >
+									
+									<table id="dg_usuario" title="Usuarios" class="easyui-datagrid" style="display:none; width:800px;height:400px"
+											url="usuario/scripts/get_usuario.php"
+											toolbar="#toolbar_usuario" singleSelect="true" fitColumns="true"  pagination="true">
+									
+										<thead>
+											<tr>
+												<th field="usuario" width="50">Usuario</th>
+												<th field="nombre" width="50">Nombre</th>
+												<th field="apellido" width="50">Apellido</th>
+												<th field="cargo" width="50">Cargo</th>
+												<th field="perfil" width="50">Perfil</th>
+											</tr>
+										</thead>
+									
+									</table>		
+									<div id="toolbar_usuario">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUsuario()">Nueva Usuario</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUsuario()">Editar Usuario</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeUsuario()">Eliminar Usuario</a>
+									</div>
+							</div>
+							
+						</div>
+					</div>
+				
+				</div>
+			
+			
+			</div><!-- /content -->
+
+			<div data-role="footer"data-position="fixed" >
+					<div id="iddiv_panel" class="ui-grid-b ui-responsive">
+							<div class="ui-block-a" style="text-align:center;">
+								<a style=" width:200px;" data-icon="back" data-iconpos="left" data-role="button" data-theme="b" id='iddiv_salir' data-ajax="false" href="../index.html" onclick='cerrarSession();'>Salir</a>
+							</div> 
+						<div  class="ui-block-b" style="text-align:center;"> <div id="iddiv_fecha"> </div> <span id="iddiv_coordenadas" style="text-align:left;"></span> </div>
+						<div class="ui-block-c">
+							<div class="ui-grid-b">	
+								<div id="iddiv_modoLR" class="ui-block-a" style="text-align:left;"></div>
+								<div class="ui-block-b"></div>
+								<div id="iddiv_usuario" class="ui-block-c" style="text-align:right;"></div>
+							</div>	
+						</div>
+					</div><!-- /grid-b -->
+			</div>
+
+			</div><!-- /page -->
+								
+								
+								
+
+								<!-- ingreso  Edicion usuario -->
+									<div id="w_usuario" class="easyui-window" title="Documento Guia" style="width:350px; height:350px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Usuario</div>
+										<form id="fm_usuario" method="post" novalidate>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Apellido:</label>
+												<input name="apellido" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Cargo:</label>
+												<input name="cargo" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Perfil:</label>
+												<select class="easyui-combobox" name="perfil" id="perfil" panelHeight='auto' style="width:200px;">
+														<option value="administrador">Administrador</option>
+														<option value="bodeguero">Bodeguero</option>
+														<option value="consultas" >Consultas</option>
+												</select>	
+												<input id="documento_guia_id_tipo_documento_guia_oculto" name="documento_guia_id_tipo_documento_guia_oculto"   style="display:none; width:150px"  />
+											</div>
+											
+											<div class="fitem">
+												<label>Usuario:</label>
+												<input name="usuario" class="easyui-validatebox" required="true" />
+											</div>
+											
+											
+											<div class="fitem">
+												<label>Password:</label>
+												<input id="password" name="password" type="password"   class="easyui-validatebox" required="true" />
+											</div>
+											
+											<div class="fitem">
+												<label>Confirme Password:</label>
+												<input id="confirmacion_password"  name="confirmacion_password" type="password"   class="easyui-validatebox" required="true" />
+											</div>
+											
+											
+											<input name="id_usuario"  id="id_usuario" type="text"   required="required" style="display:none; width:150px">	</input> 
+														
+											
+										</form>
+										<div id="bw_usuario">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUsuario()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_usuario').window('close')">Cancel</a>
+										</div>
+										
+									</div>
+								<!---->
+									
+									
+	</body>
+</html>
+	
+	<script  src="usuario/scripts/script_usuario.js"></script>
+	
+	<script src="../validaciones_login_sesion/scriptLoginSession.js"></script>
+<script>
+
+		
+			
+			function volverListaOriginal()
+			{
+				$('li').attr('class','ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-hover-a ui-btn-up-a');
+			}
+			
+			function cambiarOpcionLista(id,titulo)
+			{
+					volverListaOriginal();
+					$('#'+id).attr('class','ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-hover-a ui-btn-up-b');
+			}
+				
+			function ocultarContenedoresGrid()
+			{
+
+					$('#cont_grid_documento_guia').fadeOut('fast');
+					$('#cont_grid_tipo_documento_guia').fadeOut('fast');
+					
+			}
+			
+			function muestraContenedorGrid(selector)
+			{
+				$(selector).fadeIn('fast');
+			}
+			
+			
+			
+			$('#li_documentos_guia').click(function ()
+			{
+				cambiarOpcionLista('li_documentos_guia','Documentos Guia')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_documento_guia');
+				
+				$('#dg_documento_guia').datagrid('reload');
+				
+			});
+			
+			$('#li_tipo_documento_guia').click(function ()
+			{
+				cambiarOpcionLista('li_tipo_documento_guia','TipoDocumentoGuia');
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_tipo_documento_guia');
+				$("#dg_tipo_documento_guia").datagrid('reload');
+				
+			});
+				
+			
+			
+	
+			//cambiarOpcionLista('li_categorias','Categorias')
+			ocultarContenedoresGrid();
+			//muestraContenedorGrid('#cont_grid_categorias')
+			
+			
+
+			$.fn.datebox.defaults.formatter = function(date){
+			var y = date.getFullYear();
+			var m = ((date.getMonth()>9) ? (date.getMonth() +1) : '0'+(date.getMonth() +1) );
+			var d = ( (date.getDate()>9) ? date.getDate(): '0'+date.getDate() ) ;
+			return y+'-'+m+'-'+d;
+			} 
+			
+			
+
+	
+	
+</script>

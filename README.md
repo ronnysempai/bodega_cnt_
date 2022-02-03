@@ -1,2 +1,2 @@
-# bodega_cnt_
-inventario bodega cnt
+# bodegas_cnt_
+inventario de bodega 

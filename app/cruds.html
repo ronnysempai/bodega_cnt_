@@ -1,0 +1,780 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Mantenimientos</title> 
+		
+		<link rel="stylesheet" href="../jquery.mobile-1.3.1.min.css" />
+		<script src="../jquery-1.7.2.min.js"></script>
+		<script src="../jquery.mobile-1.3.1.min.js"></script>
+		<script src="../jquery.jtime_.js"></script>
+		 	
+		
+	<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.3.3/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.3.3/themes/icon.css">
+	
+	
+	<script type="text/javascript" src="../jquery-easyui-1.3.3/jquery.easyui.min.js"></script>		
+	<script type="text/javascript" src="../jquery-easyui-1.3.3/datagrid-detailview.js"></script>  
+		<link rel="stylesheet" href="../Ingresar.css" />
+		<link rel="stylesheet" href="../estilo_iconos/estiloIconos.css" />	
+		<link rel="stylesheet" href="../estilos/estilo_ventana.css" />	
+	
+	
+
+</head> 
+<body> 
+
+	<div data-role="page" class="type-interior">
+
+		<div data-role="header" data-theme="a">
+		<h1>Mantenimientos</h1>
+		<a href="../index.html" data-ajax="false" data-theme="a" data-ajax="false" id="idbtn_principal">Men&uacute; Principal <!-- <img src="glyphish-icons/PNG_icons_active/111-user.png"/> --></a>
+		
+		</div><!-- /header -->
+
+			<div data-role="content">
+				
+				<div class="easyui-panel" title="" style="width:1350px;height:468px;padding:10px;">
+					<div class="easyui-layout" data-options="fit:true">
+						<div data-options="region:'west',split:false" style="width:450px;padding:10px">
+								
+								<ul data-role="listview" data-theme="a" >								
+										<li id='li_recintos'  ><a href="#">Recintos</a></li>
+										<li id='li_bodegas' ><a href="#" >Bodegas</a></li>
+										<li id='li_area_bodegas' ><a href="#">Area de Bodegas</a></li>
+										<li id='li_dispositivos' ><a href="#">Dispositivos</a></li>
+										<li id='li_antenas' ><a href="#">Antenas</a></li>
+										<li id='li_categorias' ><a href="#">Categorias</a></li>
+										<li id='li_subcategorias' ><a href="#" >Subcategorias</a></li>
+										<!-- <li id='li_documentos_guia'  ><a href="#">Documentos Guia</a></li> -->
+										<li id='li_unidades_medida'  ><a href="#">Unidades Medida</a></li>
+								</ul>
+							
+						</div>
+						<div data-options="region:'center'" style="padding:10px">
+							
+							<div id='cont_grid_bodegas' style='display:none;' >
+							
+									<table id="dg_bodega" title="Bodegas" class="easyui-datagrid" style="display:none; width:700px;height:400px"
+											url="bodega/scripts/get_bodega.php"
+											toolbar="#toolbar_bodega" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<th field="nombre_bodega" >Nombre</th>
+												<th field="descripcion_bodega" >Descripcion</th>
+												<th field="tipo_bodega" >Tipo</th>
+												<th field="fecha_creacion" >Fecha de Creacion</th>
+												<th field="nombre_recinto" width="50">Recinto</th>
+												<th field="id_recinto" hidden="true" width="50">Recinto</th>
+												<th field="usuario_responsable" hidden="true" width="50">ur</th>
+											</tr>
+										</thead>
+									</table>
+									<div id="toolbar_bodega">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newBodega()">Nueva Bodega</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBodega()">Editar Bodega</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeBodega()">Eliminar Bodega</a>
+									</div>
+									
+									
+							</div>
+							
+							
+							<div id='cont_grid_area_bodegas' style='display:none;' >
+							
+										<table id="dg_area_bodega" title="Area Bodegas" class="easyui-datagrid" style="display:none; width:700px;height:400px"
+											url="area_bodega/scripts/get_area_bodega.php"
+											toolbar="#toolbar_area_bodega" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+												<thead>
+													<tr>
+														<th field="clave_area" >Clave</th>
+														<th field="nombre_area_bodega" >Bombre Are de Bodega</th>
+														<th field="descripcion_area_bodega" >Descripcion</th>
+														<th field="nombre_bodega" >Bodega</th>
+													</tr>
+												</thead>
+										</table>
+										<div id="toolbar_area_bodega">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newAreaBodega()">Nueva Area de Bodega</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editAreaBodega()">Editar Area de Bodega</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeAreaBodega()">Eliminar Area de Bodega</a>
+										</div>
+							</div>
+							
+							<div id='cont_grid_dispositivos' style='display:none;' >
+							
+										<table id="dg_dispositivo" title="Dispositivos" class="easyui-datagrid" style="display:none; width:700px;height:400px"
+											url="dispositivo/scripts/get_dispositivo.php"
+											toolbar="#toolbar_dispositivos" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+												<thead>
+													<tr>
+														<th field="nombre_dispositivo" >Nombre</th>
+														<th field="marca" >Marca</th>
+														<th field="modelo" >Modelo</th>
+														<th field="num_serie" >Numero de Serie</th>
+														<th field="num_antenas" >Numero de Antenas</th>
+														<th field="nombre_area_bodega" >Area de Bodega</th>
+													</tr>
+												</thead>
+										</table>
+										<div id="toolbar_dispositivos">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDispositivo()">Nuevo Dispositivo</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDispositivo()">Editar Dispositivo</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeDispositivo()">Eliminar Dispositivo</a>
+										</div>
+							</div>
+							
+							<div id='cont_grid_antenas' style='display:none;' >
+							
+										<table id="dg_antena" title="Antenas" class="easyui-datagrid" style="display:none; width:700px;height:400px"
+											url="antena/scripts/get_antena.php"
+											toolbar="#toolbar_antena" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+												<thead>
+													<tr>
+														<th field="nombre_dispositivo" >Dispositivo</th>
+														<th field="descripcion" >Descripcion</th>
+														<th field="sentido_antena" >Sentido</th>
+														<th field="fecha_creacion" >Fecha Creacion</th>
+													</tr>
+												</thead>
+										</table>
+										<div id="toolbar_antena">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newAntena()">Nueva Antena</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editAntena()">Editar Antena</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeAntena()">Eliminar Antena</a>
+										</div>
+							</div>
+							
+							
+							
+							<div id='cont_grid_categorias' style='display:none;' >
+							
+									<table id="dg_categorias" title="Categorias" class="easyui-datagrid" style="display:none; width:750px;height:400px"
+											url="categoria/scripts/get_categoria.php"
+											toolbar="#toolbar" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<th field="nombre_categoria" width="50">Nombre</th>
+												<th field="descripcion_categoria" width="50">Descripcion</th>
+												<th field="fecha_creacion" width="50">Fecha de Creacion</th>
+												
+											</tr>
+										</thead>
+									</table>
+									<div id="toolbar">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newCategoria()">Nueva Categoria</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editCategoria()">Editar Categoria</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeCategoria()">Eliminar Caregoria</a>
+									</div>
+									
+									
+							</div>
+							
+							<div id='cont_grid_subcategorias' style='display:none;' >
+							
+									
+									<table id="dg_subcategoria" title="subcategorias" class="easyui-datagrid" style=" width:700px;height:400px"
+											url="subcategoria/scripts/get_subcategoria.php"
+											toolbar="#toolbar_subcategoria" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<th field="id_subcategoria" hidden="true" >id_subcategoria</th>
+												<th field="nombre_subcategoria" >Nombre</th>
+												<th field="descripcion_subcategoria" >Descripcion</th>
+												<th field="fecha_creacion" >Fecha de Creacion</th>
+												
+											</tr>
+										</thead>
+									</table>
+									<div id="toolbar_subcategoria">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newSubcategoria()">Nueva Subcategorias</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editSubcategoria()">Editar Subcategorias</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeSubcategoria()">Eliminar Caregoria</a>
+									</div>
+									
+
+									
+							</div>
+							
+							<div id='cont_grid_recintos' style='display:none;' >
+							
+									<table id="dg_recintos" title="Recintos" class="easyui-datagrid" style="display:none; width:750px;height:400px"
+											url="recinto/scripts/get_recinto.php"
+											toolbar="#toolbar_recinto" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<th field="nombre_recinto" width="50">Nombre</th>
+												<th field="descripcion_recinto" width="50">Descripcion</th>
+												<th field="fecha_creacion" width="50">Fecha de Creacion</th>
+												
+											</tr>
+										</thead>
+									</table>
+									<div id="toolbar_recinto">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newRecinto()">Nuevo Recinto</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRecinto()">Editar Recinto</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeRecinto()">Eliminar Recinto</a>
+									</div>
+									
+									
+							</div>
+							
+							
+							<div id='cont_grid_unidades_medida' style='display:none;' >
+							
+									<table id="dg_unidad_medida" title="Unidades de Medida" class="easyui-datagrid" style="display:none; width:700px;height:400px"
+											url="unidad_medida/scripts/get_unidad_medida.php"
+											toolbar="#toolbar_unidad_medida" pagination="true"
+											rownumbers="true" fitColumns="true" singleSelect="true">
+										<thead>
+											<tr>
+												<th field="clave_unidad_medida" width="50">Clave</th>
+												<th field="nombre_unidad_medida" width="50">Nombre</th>
+												
+											</tr>
+										</thead>
+									</table>
+									<div id="toolbar_unidad_medida">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUnidadMedida()">Nueva Unidad de Medida</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUnidadMedida()">Editar Unidad de Medida</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeUnidadMedida()">Eliminar Unidad de Medida</a>
+									</div>
+									
+									
+							</div>
+							
+							<div id='cont_grid_documento_guia' style='display:none;' >
+									
+									<table id="dg_documento_guia" title="Documentos Guia" class="easyui-datagrid" style="display:none; width:800px;height:400px"
+											url="documento_guia/scripts/get_documento_guia.php"
+											toolbar="#toolbar_documento_guia" singleSelect="true" fitColumns="true"  pagination="true">
+									
+										<thead>
+											<tr>
+												<th field="tipo_documento" width="50">Tipo de Documento</th>
+												<th field="fuente" width="50">Fuente</th>
+												<th field="fecha_creacion" width="50">Fecha Creacion</th>
+											</tr>
+										</thead>
+									
+									</table>		
+									<div id="toolbar_documento_guia">
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDocumentoGuia()">Nueva Documento Guia</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDocumentoGuia()">Editar Documento Guia</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeDocumentoGuia()">Eliminar Documento Guia</a>
+									</div>
+							</div>
+							
+						</div>
+					</div>
+				
+				</div>
+			
+			
+			</div><!-- /content -->
+
+			<div data-role="footer"data-position="fixed" >
+					<div id="iddiv_panel" class="ui-grid-b ui-responsive">
+							<div class="ui-block-a" style="text-align:center;">
+								<a style=" width:200px;" data-icon="back" data-iconpos="left" data-role="button" data-theme="b" data-ajax="false" id='iddiv_salir' href="../index.html" onclick='cerrarSession();'>Salir</a>
+							</div> 
+						<div  class="ui-block-b" style="text-align:center;"> <div id="iddiv_fecha"> </div> <span id="iddiv_coordenadas" style="text-align:left;"></span> </div>
+						<div class="ui-block-c">
+							<div class="ui-grid-b">	
+								<div id="iddiv_modoLR" class="ui-block-a" style="text-align:left;"></div>
+								<div class="ui-block-b"></div>
+								<div id="iddiv_usuario" class="ui-block-c" style="text-align:right;"></div>
+							</div>	
+						</div>
+					</div><!-- /grid-b -->
+			</div>
+
+			</div><!-- /page -->
+								<!-- ventana ingreso , edicion de categoria -->
+								<div id="w_bodega" class="easyui-window" title="Modal Window" style="width:400px; height:320px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Bodega</div>
+										<form id="fm_bodega" method="post" novalidate>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre_bodega" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Descripcion:</label>
+												<input name="descripcion_bodega" class="easyui-validatebox" required="true" />
+											</div>
+											
+											<div class="fitem">
+												<label>Tipo:</label>
+												<select class="easyui-combobox" name="tipo_bodega" id="tipo_bodega" panelHeight='auto' style="width:200px;">
+														<option value="a">A</option>
+														<option value="b">B</option>
+														<option value="c">C</option>
+												</select>		
+											</div>
+											
+											<div class="fitem">
+												<label>Recinto:</label>
+												<input id="bodega_id_recinto" name="bodega_id_recinto"  class="easyui-combogrid" style="width:200px"  />
+												<input id="bodega_id_recinto_oculto" name="bodega_id_recinto_oculto"   style="display:none; width:150px"  />
+											</div>
+											<div class="fitem">
+												<label>Usuario Responsable:</label>
+												<input id="bodega_usuario_responsable" name="bodega_usuario_responsable"  class="easyui-combogrid" style="width:200px"  />
+											</div>
+											
+											<input name="id_bodega"  id="id_bodega" type="text"   required="required" style="display:none; width:150px">	</input> 	
+											<input name="bodega_fecha_creacion"  id="bodega_fecha_creacion" type="text"   required="required" style="display:none; width:150px">	</input> 	
+											<input name="bodega_usuario"  id="bodega_usuario" type="text"   required="required" style="display:none; width:150px">	</input> 	
+											
+										</form>
+										<div id="w_bodega_buttons">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveBodega()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_bodega').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								<!-- ventana ingreso , edicion de area bodega -->
+								<div id="w_area_bodega" class="easyui-window" title="Modal Window" style="width:400px; height:250px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Area Bodega</div>
+										<form id="fm_area_bodega" method="post" novalidate>
+											<div class="fitem">
+												<label>Clave:</label>
+												<input name="clave_area" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre_area_bodega" class="easyui-validatebox" required="true" /> 
+											</div>
+											<div class="fitem">
+												<label>Descripcion:</label>
+												<input name="descripcion_area_bodega" class="easyui-validatebox" required="true" /> 
+											</div>
+											<div class="fitem">
+												<label>Bodega:</label>
+												<input id="area_bodega_id_bodega" name="area_bodega_id_bodega"  class="easyui-combogrid" style="width:200px"  />
+												<input id="area_bodega_id_bodega_oculto" name="area_bodega_id_bodega_oculto"   style="display:none; width:150px"  />
+											</div>
+											<input name="id_area_bodega"  id="id_area_bodega" type="text"   required="required" style="display:none; width:150px">	</input> 	
+										</form>
+										<div id="w_categoria_buttons">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveAreaBodega()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_area_bodega').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								
+								<!-- ventana ingreso , edicion de dispositivo -->
+								<div id="w_dispositivo" class="easyui-window" title="Modal Window" style="width:400px; height:350px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Dispositivo </div>
+										<form id="fm_dispositivo" method="post" novalidate>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre_dispositivo" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Marca:</label>
+												<input name="marca" class="easyui-validatebox" required="true" /> 
+											</div>
+											<div class="fitem">
+												<label>Modelo:</label>
+												<input name="modelo" class="easyui-validatebox" required="true" /> 
+											</div>
+											<div class="fitem">
+												<label>Numero de Serie:</label>
+												<input name="num_serie" class="easyui-validatebox" required="true" /> 
+											</div>
+											<div class="fitem">
+												<label>Numero de Antenas:</label>
+												<input name="num_antenas" class="easyui-validatebox" required="true" /> 
+											</div>
+											
+											<div class="fitem">
+												<label>Area Bodega:</label>
+												<input id="dispositivo_id_area_bodega" name="dispositivo_id_area_bodega"  class="easyui-combogrid" style="width:200px"  />
+												<input id="dispositivo_id_area_bodega_oculto" name="dispositivo_id_area_bodega_oculto"   style="display:none; width:150px"  />
+											</div>
+											<input name="id_dispositivo"  id="id_dispositivo" type="text"   required="required" style="display:none; width:150px">	</input> 	
+										</form>
+										<div id="w_categoria_buttons">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveDispositivo()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_dispositivo').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								
+								<!-- ventana ingreso , edicion de dispositivo -->
+								<div id="w_antena" class="easyui-window" title="Modal Window" style="width:400px; height:350px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Antena </div>
+										<form id="fm_antena" method="post" novalidate>
+											<div class="fitem">
+												<label>Sentido:</label>
+													<select id="sentido" name="sentido" class="easyui-combobox" panelHeight='auto' name="state" style="width:200px;">
+														<option value="1">Entrada</option>
+														<option value="0">Salida</option>
+													</select>
+												
+											</div>
+											
+											<div class="fitem">
+												<label>Descripcion:</label>
+												<input name="descripcion" class="easyui-validatebox" required="true" /> 
+											</div>
+											
+											<div class="fitem">
+												<label>Dispositivo:</label>
+												<input id="antena_id_dispositivo" name="antena_id_dispositivo"  class="easyui-combogrid" style="width:200px"  />
+												<input id="antena_id_dispositivo_oculto" name="antena_id_dispositivo_oculto"   style="display:none; width:150px"  />
+											</div>
+											<input name="id_antena"  id="id_antena" type="text"   required="required" style="display:none; width:150px">	</input> 	
+											<input name="antena_fecha_creacion"  id="antena_fecha_creacion" type="text"   required="required" style="display:none; width:150px">	</input> 	
+										</form>
+										<div id="w_categoria_buttons">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveAntena()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_antena').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								
+								
+								<!-- ventana ingreso , edicion de categoria -->
+								<div id="w_categoria" class="easyui-window" title="Modal Window" style="width:400px; height:220px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Categoria</div>
+										<form id="fm_categoria" method="post" novalidate>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre_categoria" class="easyui-validatebox" required="true">
+											</div>
+											<div class="fitem">
+												<label>Descripcion:</label>
+												<input name="descripcion_categoria" class="easyui-validatebox" required="true" /> 
+											</div>
+											<div class="fitem">
+												<label>Fecha creacion:</label>
+												<input name="fecha_creacion"  id="dd" type="text" class="easyui-datebox" required="required" style="width:150px">	</input> 
+											</div>
+											
+										</form>
+										<div id="w_categoria_buttons">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveCategoria()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_categoria').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								
+								<!-- ventana ingreso , edicion de sucategoria -->
+								<div id="w_subcategoria" class="easyui-window" title="Modal Window" style="width:400px; height:220px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">SubCategoria</div>
+										<form id="fm_subcategoria" method="post" novalidate>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre_subcategoria" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Descripcion:</label>
+												<input name="descripcion_subcategoria" class="easyui-validatebox" required="true" /> 
+											</div>
+											<div class="fitem">
+												<label>Categoria:</label>
+												<input id="subcategoria_id_categoria" name="subcategoria_id_categoria"  class="easyui-combogrid" style="width:200px"  />
+												<input id="subcategoria_id_categoria_oculto" name="subcategoria_id_categoria_oculto"   style="display:none; width:150px"  />
+											</div>
+											
+											<input name="id_subcategoria" id="id_subcategoria"  type="text" style="display:none; width:150px"  /> 
+											<input name="subcategoria_fecha_creacion"  id="subcategoria_fecha_creacion" type="text"   required="required" style="display:none; width:150px">	</input> 		
+										</form>
+										<div id="w_subcategoria_buttons">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveSubcategoria()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_subcategoria').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								
+								<!-- ventana ingreso , edicion de recinto -->
+								<div id="w_recinto" class="easyui-window" title="Modal Window" style="width:400px; height:220px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Recinto</div>
+										<form id="fm_recinto" method="post" novalidate>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre_recinto" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Descripcion:</label>
+												<input name="descripcion_recinto" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Fecha creacion:</label>
+												<input name="fecha_creacion"  id="dd" type="text" class="easyui-datebox" required="required" style="width:150px">	</input> 
+											</div>
+											<input name="recinto_usuario"  id="recinto_usuario" type="text"   required="required" style="display:none; width:150px">	</input> 
+										</form>
+										<div id="w_recinto_buttons">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveRecinto()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_recinto').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								
+								<!-- ventana ingreso , edicion de unidad de medida -->
+								<div id="w_unidad_medida" class="easyui-window" title="Unidad de Medida" style="width:400px; height:220px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Unidad de Medida</div>
+										<form id="fm_unidad_medida" method="post" novalidate>
+											<div class="fitem">
+												<label>Clave:</label>
+												<input name="clave_unidad_medida" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Nombre:</label>
+												<input name="nombre_unidad_medida" class="easyui-validatebox" required="true" />
+											</div>
+											
+											<input name="unidad_medida_usuario"  id="recinto_usuario" type="text"   required="required" style="display:none; width:150px">	</input> 
+										</form>
+										<div id="w_unidad_medida">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUnidadMedida()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_unidad_medida').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								<!--  -->
+								
+								<!-- ventana ingreso , edicion de Documento Guia -->
+								<div id="w_documento_guia" class="easyui-window" title="Documento Guia" style="width:350px; height:250px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+										<div class="ftitle">Documento Guia</div>
+										<form id="fm_documento_guia" method="post" novalidate>
+											<div class="fitem">
+												<label>Tipo de Documento:</label>
+												<input name="tipo_documento" class="easyui-validatebox" required="true" />
+											</div>
+											<div class="fitem">
+												<label>Fuente:</label>
+												<input name="fuente" class="easyui-validatebox" required="true" />
+											</div>
+											<input name="documento_guia_fecha_creacion"  id="documento_guia_fecha_creacion" type="text"   required="required" style="display:none; width:150px">	</input> 	
+											<input name="documento_guia_usuario"  id="documento_guia_usuario" type="text"   required="required" style="display:none; width:150px">	</input> 
+											<input name="id_documento_guia"  id="id_documento_guia" type="text"   required="required" style="display:none; width:150px">	</input> 
+														
+											
+										</form>
+										<div id="bw_documento_guia">
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveDocumentoGuia()">Save</a>
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_documento_guia').window('close')">Cancel</a>
+										</div>
+										
+								</div>
+								
+									<div id='w_detalle_guia'   class="easyui-window" title="Detalle Guia" style="width:580px; height:520px; padding:10px 20px" closed="true" data-options="modal:true,resizable:false ,collapsible:false,minimizable:false,closed:true,iconCls:'icon-save'" >
+									
+												<form id="fm_detalle_guia" method="post" novalidate>
+														<div class="fitem">
+															<label>Producto:</label>
+															<input name="nombre_producto" id="nombre_producto" class="easyui-validatebox" readonly="readonly" />
+															<label style="margin-left:10px;" >Precio:</label>
+															<input name="precio_promedio" id="precio_promedio" class="easyui-validatebox"  readonly="readonly" />
+														</div>
+														<div class="fitem">
+															<label  >Clave:</label>
+															<input name="clave_producto" id="clave_producto" class="easyui-validatebox"  readonly="readonly" />
+														</div>
+														<div class="fitem">
+															
+															<label>Cantidad:</label>
+															<input name="cantidad" id="cantidad" class="easyui-validatebox"  />
+														</div>
+														<input name="id_detalle_guia"  id="id_detalle_guia" type="text"  value=""   style="display:none; width:150px">	</input> 
+														<input name="detalle_guia_id_producto"  id="detalle_guia_id_producto" type="text"  value=""   style="display:none; width:150px">	</input> 
+														<input name="detalle_guia_id_documento_guia"  id="detalle_guia_id_documento_guia" value="" type="text"    style="display:none; width:150px">	</input> 
+														<input name="detalle_guia_fecha_creacion"  id="detalle_guia_fecha_creacion" value="" type="text"    style="display:none; width:150px">	</input> 
+														<input name="detalle_guia_usuario"  id="detalle_guia_usuario" type="text"  value=""  style="display:none; width:150px">	</input> 
+														
+															<table id="dg_busqueda_producto" title="Detalle Guia" class="easyui-datagrid" style="display:none; width:400px;height:350px"
+																	url="../php/get_productos.php"
+																	toolbar="#toolbar_busqueda_producto" singleSelect="true" fitColumns="true"  >
+															
+																<thead>
+																	<tr>
+																		<th field="id_producto" hidden="true" width="50">id_producto</th>
+																		<th field="nombre_producto" width="50">Producto</th>
+																		<th field="clave_producto" width="50">Clave </th>
+																		<th field="precio_promedio" width="50">Precio</th>
+																	</tr>
+																</thead>
+															
+															</table>
+															
+															<div id="toolbar_busqueda_producto">
+																<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDocumentoGuia()">Agregar Detalle</a>
+																
+															</div>
+													<div id="bw_detalle_guia">
+														<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveDetalleGuia()">Save</a>
+														<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#w_detalle_guia').window('close')">Cancel</a>
+													</div>	
+												</form>			
+									</div>
+								<!--  -->
+								
+								
+									
+									
+	</body>
+</html>
+	<script  src="bodega/scripts/script_bodega.js"></script>
+	<script  src="area_bodega/scripts/script_area_bodega.js"></script>
+	<script  src="dispositivo/scripts/script_dispositivo.js"></script>
+	<script  src="antena/scripts/script_antena.js"></script>
+	<script  src="categoria/scripts/script_categoria.js"></script>
+	<script  src="subcategoria/scripts/script_subcategoria.js"></script>
+	<script  src="recinto/scripts/script_recinto.js"></script>
+	<script  src="unidad_medida/scripts/script_unidad_medida.js"></script>
+	<script  src="documento_guia/scripts/script_documento_guia.js"></script>
+	
+	<script src="../validaciones_login_sesion/scriptLoginSession.js"></script>
+<script>
+
+		
+			
+			function volverListaOriginal()
+			{
+				$('li').attr('class','ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-hover-a ui-btn-up-a');
+			}
+			
+			function cambiarOpcionLista(id,titulo)
+			{
+					volverListaOriginal();
+					$('#'+id).attr('class','ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-hover-a ui-btn-up-b');
+			}
+				
+			function ocultarContenedoresGrid()
+			{
+					
+					$('#cont_grid_categorias').fadeOut('fast');
+					$('#cont_grid_subcategorias').fadeOut('fast');
+					$('#cont_grid_antenas').fadeOut('fast');
+					$('#cont_grid_dispositivos').fadeOut('fast');
+					$('#cont_grid_bodegas').fadeOut('fast');
+					$('#cont_grid_area_bodegas').fadeOut('fast');
+					$('#cont_grid_documento_guia').fadeOut('fast');
+					$('#cont_grid_recintos').fadeOut('fast');
+					$('#cont_grid_unidades_medida').fadeOut('fast');
+					
+			}
+			
+			function muestraContenedorGrid(selector)
+			{
+				$(selector).fadeIn('fast');
+			}
+			
+			
+			$('#li_categorias').click(function ()
+			{
+				cambiarOpcionLista('li_categorias','Categorias')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_categorias')
+				$("#dg_categorias").datagrid('reload');
+			});
+
+			$('#li_subcategorias').click(function ()
+			{
+				
+				cambiarOpcionLista('li_subcategorias','Subcategorias')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_subcategorias')
+				$("#dg_subcategoria").datagrid('reload');
+				
+			});
+
+			
+			$('#li_antenas').click(function ()
+			{
+				cambiarOpcionLista('li_antenas','Antenas')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_antenas');
+				$('#dg_antena').datagrid('reload');
+			});
+			
+			$('#li_dispositivos').click(function ()
+			{
+				cambiarOpcionLista('li_dispositivos','Dispositivos')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_dispositivos')
+				$('#dg_dispositivo').datagrid('reload');
+			});
+
+			$('#li_bodegas').click(function ()
+			{
+				cambiarOpcionLista('li_bodegas','Bodegas')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_bodegas')
+				$('#dg_bodega').datagrid('reload');
+			});
+
+			$('#li_area_bodegas').click(function ()
+			{
+				cambiarOpcionLista('li_area_bodegas','Area Bodegas')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_area_bodegas');
+				$('#dg_area_bodega').datagrid('reload');
+			});
+
+			$('#li_documentos_guia').click(function ()
+			{
+				cambiarOpcionLista('li_documentos_guia','Documentos Guia')
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_documento_guia');
+				
+				$('#dg_documento_guia').datagrid('reload');
+				
+			});
+			
+			$('#li_recintos').click(function ()
+			{
+				cambiarOpcionLista('li_recintos','Recintos');
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_recintos');
+				$("#dg_recintos").datagrid('reload');
+				
+			});
+				
+			$('#li_unidades_medida').click(function ()
+			{
+				cambiarOpcionLista('li_unidades_medida','Unidades de Medida');
+				ocultarContenedoresGrid();
+				muestraContenedorGrid('#cont_grid_unidades_medida');
+				$("#dg_unidad_medida").datagrid('reload');
+			});
+			
+	
+			//cambiarOpcionLista('li_categorias','Categorias')
+			ocultarContenedoresGrid();
+			//muestraContenedorGrid('#cont_grid_categorias')
+			
+			
+
+			$.fn.datebox.defaults.formatter = function(date){
+			var y = date.getFullYear();
+			var m = ((date.getMonth()>9) ? (date.getMonth() +1) : '0'+(date.getMonth() +1) );
+			var d = ( (date.getDate()>9) ? date.getDate(): '0'+date.getDate() ) ;
+			return y+'-'+m+'-'+d;
+			} 
+			
+			
+
+	
+	
+</script>
